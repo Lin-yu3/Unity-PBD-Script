@@ -72,7 +72,7 @@ public class PBD_twospring : MonoBehaviour
         gC += dlenB - len0; ///AD公式, cost function, gC[1]..gC[6]是gradient
         //把cost function都相加
         //bending,直接拿線段的向量來做
-        print(dlenA.val(0) +" "+ dlenB.val(0));
+        print(dlenA.val(0) +" "+ dlenB.val(0))
         gC += dfloat.dacos((dx * dxx + dy * dyy + dz * dzz) / dlenA / dlenB);
         print("acos's input val[0]:" + ((dx * dxx + dy * dyy + dz * dzz) / dlenA / dlenB).val(0));
 
@@ -84,7 +84,7 @@ public class PBD_twospring : MonoBehaviour
 
         print(gC.val(0) + " " + gC.val(1) + " " + gC.val(2) + " " + gC.val(3));
         float C = gC.val(0); //其實 cost function C的, 就存在 gC 的第[0]項
-        x1+=(-C/len2)*gC.val(1); ///△P=-C(P)/|▽pC(P)|的平方×▽pC(P)
+        x1+=(-C/len2)*gC.val(1); ///△P=-C(P)/|▽pC(P)|的平方 × ▽pC(P)
         y1+=(-C/len2)*gC.val(2); ///算出 △P 回去改 P
         z1+=(-C/len2)*gC.val(3);
         x2+=(-C/len2)*gC.val(4);
