@@ -7,7 +7,7 @@ public class step05_mullerAD : MonoBehaviour
     const int N = 8;//可自行設定有幾顆球
     public GameObject[] sphere = new GameObject[N];
     Vector3[] gradient = new Vector3[N];//之後會由 posAD 的項,算出對應的 gradient
-    Vector3[] v = new Vector3[N];
+    Vector3[] v = new Vector3[N];//初始速度v
     Vector3[] pos = new Vector3[N];//論文中的p
     Vector3[] pos0 = new Vector3[N];//論文中的x
     Vector3[] C = new Vector3[N];
