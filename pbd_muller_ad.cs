@@ -84,7 +84,8 @@ public class pbd_muller_ad : MonoBehaviour
     }//Bending 要關掉的話, 可以將 return 統一變成 return 0 即可
     void calcGradient(int Cj, int Xi)
     {//input:第幾個constraint, 第幾個點
-        float d = 0.001f;//for gradient distance//未來:需要依需求,讓d變得更小,才可讓gradient sum為0的問題不出現
+        float d = 0.001f;//for gradient distance
+        //未來:需要依需求,讓d變得更小,才可讓gradient sum為0的問題不出現
         float f1, f0;
         pos[Xi].x += d;
         f1 = C(Cj);
