@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class step05_mullerAD : MonoBehaviour
 {
-    const int N = 8;
+    const int N = 8;//可自行設定有幾顆球
     public GameObject[] sphere = new GameObject[N];
     Vector3[] gradient = new Vector3[N];//之後會由 posAD 的項,算出對應的 gradient
     Vector3[] v = new Vector3[N];
