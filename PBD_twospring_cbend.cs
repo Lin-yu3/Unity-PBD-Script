@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PBD_twospring : MonoBehaviour
+public class PBD_twospring_cbend : MonoBehaviour
 {
     float x1 = -10f, y1 = 0, z1 = 0;
     float x2 = 0f, y2 = 0, z2 = 0;
@@ -42,6 +42,18 @@ public class PBD_twospring : MonoBehaviour
     void solvePBD()
     {
         float len0 = 10f; ///原始長度為 0.5
+        // float x = x1 - x2, y = y1 - y2, z = z1 - z2; ///原始的公式中 用來算 cost function 的輔助變數
+        // float C = Mathf.Sqrt(x * x + y * y + z * z) - len0; ///原始的cost function
+        // {
+        //     x = x2 - x3;
+        //     y = y2 - y3;
+        //     z = z2 - z3;
+        //     C += Mathf.Sqrt(x * x + y * y + z * z) - len0;
+        // }
+
+        //以下已利用 Automatic Differentiation 技巧, 配合 operator overloading 完成
+        ///細讀 Stam 第14章, 了解 (1) 控制變數 x1,y1,z1, x2,y2,z2 有6個, 所以 dfloat<6>
+        ///(2) 有些項要設1, 因為 「自己對自己微分」會得到1
         dfloat dx1 = new dfloat(9, x1);
         dfloat dy1 = new dfloat(9, y1);
         dfloat dz1 = new dfloat(9, z1); ///初始原值, 其他裡面都會是0
@@ -57,24 +69,25 @@ public class PBD_twospring : MonoBehaviour
         dx2.val(4) = 1; ///[4]項 是對 變數4 微分
         dy2.val(5) = 1; ///[5]項 是對 變數5 微分
         dz2.val(6) = 1; ///[6]項 是對 變數6 微分
-        dx3.val(7) = 1; ///[7]項 是對 變數7 微分
-        dy3.val(8) = 1; ///[8]項 是對 變數8 微分
-        dz3.val(9) = 1; ///[9]項 是對 變數9 微分
+        dx3.val(7) = 1; ///[4]項 是對 變數7 微分
+        dy3.val(8) = 1; ///[5]項 是對 變數8 微分
+        dz3.val(9) = 1; ///[6]項 是對 變數9 微分
                         ///沒設定的,都會是0
 
                         ///這裡的 dx 是前面 x=x1-x2 去做 dfloat 計算的意思
         dfloat dx = dx1 - dx2, dy = dy1 - dy2, dz = dz1 - dz2; ///AD公式, 用來算 cost function 的輔助變數
-        dfloat dlenA = dfloat.dsqrt(dx * dx + dy * dy + dz * dz);
-        dfloat dxx = dx2 - dx3, dyy = dy2 - dy3, dzz = dz2 - dz3;
-        dfloat dlenB = dfloat.dsqrt(dxx * dxx + dyy * dyy + dzz * dzz);
+        dfloat dlenA = dfloat.dsqrt(dx * dx + dy * dy + dz * dz);//ball01,ball02之間的長度
+        dfloat dxx = dx2 - dx3, dyy = dx2 - dx3, dzz = dx2 - dx3; ///AD公式, 用來算 cost function 的輔助變數
+        dfloat dlenB = dfloat.dsqrt(dxx * dxx + dyy * dyy + dzz * dzz);//ball02,ball03之間的長度
 
         dfloat gC = dlenA - len0; ///AD公式, cost function, gC[1]..gC[6]是gradient
-        gC += dlenB - len0; ///AD公式, cost function, gC[1]..gC[6]是gradient
-        //把cost function都相加
-        //bending,直接拿線段的向量來做
-        print(dlenA.val(0) + " " + dlenB.val(0));
-        gC += dfloat.dacos((dx * dxx + dy * dyy + dz * dzz) / dlenA / dlenB);
-        print("acos's input val[0]:" + ((dx * dxx + dy * dyy + dz * dzz) / dlenA / dlenB).val(0));
+        gC += dlenB - len0;
+        //Q: cost function是相加嗎? TODO:要恢復1個月前的記憶(讀paper)
+        //在公式10,公式11裡, 右邊有單位向量
+
+        // Cbending ※have problem目前無法解決
+        float angle0 = Mathf.Sin(Mathf.PI);
+        gC += dfloat.dacos((dx * dxx + dy * dyy + dz * dzz) / dlenA / dlenB) - angle0;
 
         float len2 = 0; ///posBasedDyn.pdf 的公式(5)
         for (int i = 1; i <= 9; i++)
@@ -82,11 +95,10 @@ public class PBD_twospring : MonoBehaviour
             len2 += gC.val(i) * gC.val(i); ///要算出分母 (gradient的長度平方)
         }
         len2 = Mathf.Sqrt(len2);
+        float C = gC.val(0);
 
-        print(gC.val(0) + " " + gC.val(1) + " " + gC.val(2) + " " + gC.val(3));
-        float C = gC.val(0); //其實 cost function C的, 就存在 gC 的第[0]項
-        x1 += (-C / len2) * gC.val(1); ///△P=-C(P)/|▽pC(P)|的平方 × ▽pC(P)
-        y1 += (-C / len2) * gC.val(2); ///算出 △P 回去改 P
+        x1 += (-C / len2) * gC.val(1); ///posBasedDyn.pdf 的公式(5) 算出 delta P 回去改 P
+        y1 += (-C / len2) * gC.val(2);
         z1 += (-C / len2) * gC.val(3);
         x2 += (-C / len2) * gC.val(4);
         y2 += (-C / len2) * gC.val(5);

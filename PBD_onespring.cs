@@ -26,12 +26,12 @@ public class PBD_onespring : MonoBehaviour
         float x = x1 - x2, y = y1 - y2, z = z1 - z2;
         float C = Mathf.Sqrt(x * x + y * y + z * z) - len0;///原始的cost function
 
-        dfloat dx1 = new dfloat(x1);
-        dfloat dy1 = new dfloat(y1);
-        dfloat dz1 = new dfloat(z1); ///初始原值, 其他裡面都會是0
-        dfloat dx2 = new dfloat(x2);
-        dfloat dy2 = new dfloat(y2);
-        dfloat dz2 = new dfloat(z2); ///初始原值, 其他裡面都會是0
+        dfloat dx1 = new dfloat(6, x1);
+        dfloat dy1 = new dfloat(6, y1);
+        dfloat dz1 = new dfloat(6, z1); ///初始原值, 其他裡面都會是0
+        dfloat dx2 = new dfloat(6, x2);
+        dfloat dy2 = new dfloat(6, y2);
+        dfloat dz2 = new dfloat(6, z2); ///初始原值, 其他裡面都會是0
         dx1.val(1) = 1; ///[1]項 是對 變數1 微分
         dy1.val(2) = 1; ///[2]項 是對 變數2 微分
         dz1.val(3) = 1; ///[3]項 是對 變數3 微分
