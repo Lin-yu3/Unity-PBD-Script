@@ -58,9 +58,13 @@ public class test_oop_value : MonoBehaviour
             double[] delta_x = new double[12];
             double StiffMultS = m_stiffness * s;
             delta_x = Accord.Math.Elementwise.Multiply(StiffMultS, Accord.Math.Matrix.Dot(Accord.Math.Matrix.Diagonal(m_inv_M), grad_C));
+            for (int i = 0; i < 12; i++)
+            {
+                if (double.IsNaN(delta_x[i])) continue;//如果delta x 數值非常小, 就跳掉
+            }
             for (int j = 0; j < 4; ++j)
             {
-
+                //m_particle要設定好
             }
         }
         private double[] m_inv_M = new double[12];
