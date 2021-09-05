@@ -15,15 +15,7 @@ public class test_oop_value : MonoBehaviour
     {
 
     }
-    public double[] VectorXd(double[] input)
-    {
-        double[] output = new double[input.GetLength(0)];
-        for (int i = 0; i < input.GetLength(0); i++)
-        {
-            output[i] += input[i];
-        }
-        return output;
-    }
+
     class BendingConstraint : AbstractConstraint
     {
         public BendingConstraint(Vector3 p_0, Vector3 p_1, Vector3 p_2, Vector3 p_3)
