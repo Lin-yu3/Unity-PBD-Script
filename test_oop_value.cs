@@ -18,17 +18,28 @@ public class test_oop_value : MonoBehaviour
 
     class BendingConstraint : AbstractConstraint
     {
-        public BendingConstraint(Vector3 p_0, Vector3 p_1, Vector3 p_2, Vector3 p_3)
-        {
-            //自己預設值
-
+        public BendingConstraint(Vector3 p_0,
+                                 Vector3 p_1,
+                                 Vector3 p_2,
+                                 Vector3 p_3,
+                                 double stiffness,
+                                 double compliance,
+                                 double delta_time,
+                                 double dihedral_angle)
+        {//還沒測試 
         }
+
 
     }
     class AbstractConstraint
     {
-
         public AbstractConstraint() { }
+        public AbstractConstraint(double[] particles,
+                                  double stiffness,
+                                  double compliance,
+                                  double delta_time)
+                => (m_stiffness, m_lagrange_mutiplier, m_compliance, m_delta_time, m_particles)
+                = (stiffness, 0.0, compliance, delta_time, particles);
         public virtual double calculateValue()
         {
             return 0;//翻譯constraint.hpp 第35
@@ -38,6 +49,11 @@ public class test_oop_value : MonoBehaviour
             return grad_C; //翻譯constraint.hpp 第42
         }
         double m_stiffness;
+        double m_lagrange_mutiplier;
+        double m_compliance;
+        double m_delta_time;
+        protected double[] m_particles;
+
         void projectParticles()
         {
             double C = calculateValue();
@@ -67,7 +83,7 @@ public class test_oop_value : MonoBehaviour
                 //m_particle要設定好
             }
         }
-        private double[] m_inv_M = new double[12];
+        private readonly double[] m_inv_M = new double[12];
         private double[] calculateGrad()
         {
             double[] grad_C = new double[12];
