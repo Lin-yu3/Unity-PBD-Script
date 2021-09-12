@@ -6,31 +6,57 @@ using Accord.Math;
 public class test_sandbox : MonoBehaviour
 {
     //測試
-
-
-    // VectorXd
-    public double[] VectorXd(double[] input)
+    public class Point
     {
-        double[] output = new double[input.GetLength(0)];
-        for (int i = 0; i < input.GetLength(0); i++)
-        {
-            output[i] += input[i];
-        }
-        return output;
+        public Point(double x, double y)
+            => (X, Y) = (x, y);
+
+        public double X { get; }
+        public double Y { get; }
+
+        public void Deconstruct(out double x, out double y) =>
+            (x, y) = (X, Y);
     }
-    // void print(double[,] ans)
-    // {
-    //     var line = "";
-    //     for (int i = 0; i < ans.GetLength(0); i++)
-    //     {
-    //         for (int j = 0; j < ans.GetLength(1); j++)
-    //         {
-    //             line += ans[i, j] + " ";
-    //         }
-    //         line += "\n";
-    //     }
-    //     print(line);
-    // }
+    //測試二
+
+    class AbstractConstraint
+    {
+        public AbstractConstraint(double[] particles,
+                                  double stiffness,
+                                  double compliance,
+                                  double delta_time)
+                => (m_stiffness, m_lagrange_mutiplier, m_compliance, m_delta_time, m_particles)
+                = (stiffness, 0.0, compliance, delta_time, particles);
+        public double stiffness { get; }
+        public double compliance { get; }
+        public double delta_time { get; }
+        public double particles { get; }
+        public double zero = 0.0;
+        public void Deconstruct(out double[] particles,
+                                out double stiffness,
+                                out double compliance,
+                                out double delta_time)
+                => (stiffness, zero, compliance, delta_time, particles)
+                = (m_stiffness, m_lagrange_mutiplier, m_compliance, m_delta_time, m_particles);
+        double m_stiffness;
+        double m_lagrange_mutiplier;
+        double m_compliance;
+        double m_delta_time;
+        protected double[] m_particles;
+    }
+    void Print(double[,] ans)
+    {
+        var line = "";
+        for (int i = 0; i < ans.GetLength(0); i++)
+        {
+            for (int j = 0; j < ans.GetLength(1); j++)
+            {
+                line += ans[i, j] + " ";
+            }
+            line += "\n";
+        }
+        print(line);
+    }
     public virtual double calculateValue()
     {
         return 0;//翻譯constraint.hpp 第35
@@ -39,6 +65,22 @@ public class test_sandbox : MonoBehaviour
     {
         double[] grad_C = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         double[] m_inv_M = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        //test AbstractConstraint
+
+        //test class Point
+        var p = new Point(3.14, 2.71);
+        (double X, double Y) = p;
+        print("X: " + X);
+        print("Y: " + Y);
+        var testAbstract = new AbstractConstraint(grad_C, 2, 3, 4);
+        (double[] m_particles, double m_stiffness, double m_compliance, double m_delta_time) = testAbstract;
+        for (int i = 0; i < m_particles.Length; i++)
+        {
+            print("m_particles[" + i + "]: " + m_particles[i]);
+        }
+        print("m_stiffness: " + m_stiffness);
+        print("m_compliance: " + m_compliance);
+        print("m_delta_time: " + m_delta_time);
         //double C = calculateValue();
         double sum = 0;
         for (int i = 0; i < 12; i++)
