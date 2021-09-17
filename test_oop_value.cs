@@ -156,13 +156,22 @@ public class test_oop_value : MonoBehaviour
             double[] neg_grad_C_wrt_p_3 = Accord.Math.Elementwise.Multiply(-1, grad_C_wrt_p_3);
             double[] grad_C_wrt_p_1_add_p_2 = Accord.Math.Elementwise.Add(neg_grad_C_wrt_p_1, neg_grad_C_wrt_p_2);
             double[] grad_C_wrt_p_0 = Accord.Math.Elementwise.Add(grad_C_wrt_p_1_add_p_2, neg_grad_C_wrt_p_3);
-            for (int i = 0; i < 3; i++)
-            {
-                grad_C[i + 3 * 0] = grad_C_wrt_p_0[i];
-                grad_C[i + 3 * 1] = grad_C_wrt_p_1[i];
-                grad_C[i + 3 * 2] = grad_C_wrt_p_2[i];
-                grad_C[i + 3 * 3] = grad_C_wrt_p_3[i];
-            }
+            //翻譯constraint .cpp 第127-130
+            grad_C[3 * 0 + 0] = grad_C_wrt_p_0[0];
+            grad_C[3 * 0 + 1] = grad_C_wrt_p_0[1];
+            grad_C[3 * 0 + 2] = grad_C_wrt_p_0[2];
+
+            grad_C[3 * 1 + 0] = grad_C_wrt_p_1[0];
+            grad_C[3 * 1 + 1] = grad_C_wrt_p_1[1];
+            grad_C[3 * 1 + 2] = grad_C_wrt_p_1[2];
+
+            grad_C[3 * 2 + 0] = grad_C_wrt_p_2[0];
+            grad_C[3 * 2 + 1] = grad_C_wrt_p_2[1];
+            grad_C[3 * 2 + 2] = grad_C_wrt_p_2[2];
+
+            grad_C[3 * 3 + 0] = grad_C_wrt_p_3[0];
+            grad_C[3 * 3 + 1] = grad_C_wrt_p_3[1];
+            grad_C[3 * 3 + 2] = grad_C_wrt_p_3[2];
             return grad_C;
         }
         private double m_dihedral_angle;
@@ -170,7 +179,6 @@ public class test_oop_value : MonoBehaviour
     }
     class AbstractConstraint
     {
-        // public AbstractConstraint() { }
         public AbstractConstraint(double[] particles,
                                   double stiffness,
                                   double compliance,
@@ -225,12 +233,13 @@ public class test_oop_value : MonoBehaviour
             {
                 if (double.IsNaN(delta_x[i])) continue;//如果delta x 數值非常小, 就跳掉
             }
-            for (int j = 0; j < 4; ++j)
+            //更新預測的位置p
+            for (int j = 0; j < 12; ++j)
             {
-                //m_particle要設定好
+                m_particles[j] += delta_x[j];
             }
         }
-        private readonly double[] m_inv_M = new double[12];
+        private double[] m_inv_M = new double[12];
         private double[] calculateGrad()
         {
             double[] grad_C = new double[12];
