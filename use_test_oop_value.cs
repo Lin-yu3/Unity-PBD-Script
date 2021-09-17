@@ -51,13 +51,6 @@ public class use_test_oop_value : MonoBehaviour
             mat[2, 1] = +vec[0];
             return mat;
         }
-        double calculateCotTheta(Vector3 x, Vector3 y)
-        {
-            float scaled_cos_theta = Vector3.Dot(x, y);
-            float scaled_sin_theta = Vector3.Cross(x, y).magnitude;
-            return scaled_cos_theta / scaled_sin_theta;
-        }
-
         public AbstractConstraint() { }
         public virtual double calculateValue()
         {
@@ -66,10 +59,7 @@ public class use_test_oop_value : MonoBehaviour
             Vector3 x_1 = p[1].transform.position;
             Vector3 x_2 = p[2].transform.position;
             Vector3 x_3 = p[3].transform.position;
-            print("x_0 :" + x_0);
-            print("x_1 :" + x_1);
-            print("x_2 :" + x_2);
-            print("x_3 :" + x_3);
+
             Vector3 p_1 = x_1 - x_0;
             Vector3 p_2 = x_2 - x_0;
             Vector3 p_3 = x_3 - x_0;
