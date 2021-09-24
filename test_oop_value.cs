@@ -2,28 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
-public class test_oop_value : MonoBehaviour
+namespace position_based_dynamics
 {
-    public static GameObject[] p = new GameObject[4];
-    // Start is called before the first frame update
-    void Start()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            p[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        }
-        p[0].transform.position = new Vector3(1.5f, 3, 3);
-        p[1].transform.position = new Vector3(3, 0, 1.5f);
-        p[2].transform.position = new Vector3(4.5f, 0, 3);
-        p[3].transform.position = new Vector3(6, 3, 1.5f);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     class BendingConstraint : AbstractConstraint
     {
         public BendingConstraint(Vector3 p_0,
@@ -39,10 +19,10 @@ public class test_oop_value : MonoBehaviour
         //把原來的calculateValue複寫,蓋過去
         public override double calculateValue()
         {
-            Vector3 x_0 = p[0].transform.position;
-            Vector3 x_1 = p[1].transform.position;
-            Vector3 x_2 = p[2].transform.position;
-            Vector3 x_3 = p[3].transform.position;
+            Vector3 x_0 = test_oop_value.p[0].transform.position;
+            Vector3 x_1 = test_oop_value.p[1].transform.position;
+            Vector3 x_2 = test_oop_value.p[2].transform.position;
+            Vector3 x_3 = test_oop_value.p[3].transform.position;
 
             Vector3 p_1 = x_1 - x_0;
             Vector3 p_2 = x_2 - x_0;
@@ -78,10 +58,10 @@ public class test_oop_value : MonoBehaviour
         public override double[] calculateGrad(double[] grad_C)
         {
             //翻譯constraint.cpp 第75-
-            Vector3 x_0 = p[0].transform.position;
-            Vector3 x_1 = p[1].transform.position;
-            Vector3 x_2 = p[2].transform.position;
-            Vector3 x_3 = p[3].transform.position;
+            Vector3 x_0 = test_oop_value.p[0].transform.position;
+            Vector3 x_1 = test_oop_value.p[1].transform.position;
+            Vector3 x_2 = test_oop_value.p[2].transform.position;
+            Vector3 x_3 = test_oop_value.p[3].transform.position;
 
             Vector3 p_1 = x_1 - x_0;
             Vector3 p_2 = x_2 - x_0;
@@ -111,7 +91,7 @@ public class test_oop_value : MonoBehaviour
                 double[] ans = new double[] { v.x, v.y, v.z };
                 for (int i = 0; i < ans.GetLength(0); i++)
                 {
-                    print("mat" + "[0 ," + i + "] :" + ans[i]);
+                    Console.WriteLine("mat" + "[0 ," + i + "] :" + ans[i]);
                 }
                 return ans;
             }
@@ -258,6 +238,29 @@ public class test_oop_value : MonoBehaviour
             return inv_M;
         }
     }
+
+}
+public class test_oop_value : MonoBehaviour
+{
+    public static GameObject[] p = new GameObject[4];
+    // Start is called before the first frame update
+    void Start()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            p[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        }
+        p[0].transform.position = new Vector3(1.5f, 3, 3);
+        p[1].transform.position = new Vector3(3, 0, 1.5f);
+        p[2].transform.position = new Vector3(4.5f, 0, 3);
+        p[3].transform.position = new Vector3(6, 3, 1.5f);
+    }
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
 }
 
 
