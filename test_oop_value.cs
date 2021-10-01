@@ -170,7 +170,7 @@ namespace position_based_dynamics
         public double delta_time { get; }
         public static double[] particles { get; }
         public double zero = 0.0;
-        public void Deconstruct(out double[] particles,
+        public void FixedNumAbstractConstraint(out double[] particles,
                                 out double stiffness,
                                 out double compliance,
                                 out double delta_time)
