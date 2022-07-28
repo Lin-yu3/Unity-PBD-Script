@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class step05_mullerAD : MonoBehaviour
+public class pbd_final : MonoBehaviour
 {
     const int N = 8;//可自行設定有幾顆球
     public GameObject[] sphere = new GameObject[N];

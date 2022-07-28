@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PBD : MonoBehaviour
+public class pbd_PolylineToStraightline : MonoBehaviour
 {
     public int N = 15;
     float d0 = 0.8f, angle0 = Mathf.Sin(Mathf.PI);

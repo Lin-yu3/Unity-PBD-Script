@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pbd_muler2006 : MonoBehaviour
+public class pbd_withoutAD : MonoBehaviour
 {
     //此為沒有使用 auto diff的版本
     const int N = 8;//設定球的數量
