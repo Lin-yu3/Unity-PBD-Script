@@ -1,21 +1,15 @@
 # Unity-PBD-Script
 simulate a line which consists of spheres and cylinders
 
-##Script
-* pbd01_oneSpring
-* pbd02_twoSpring
-* pbd03_fixedpointGravity
-* pbd04_clothGravity
-* pbd05_30x30cloth
-* pbd06_collisionconstraint
+## Script
+* ad(自動微分, 能幫助計算梯度)
+* pbd01_onespring(測試單一線段)
+* pbd02_twospring(測試2線段)
+* pbd03_3ball_noad(設置3個節點)
+* pbd04_twospring_stretch(測試兩線段拉伸)
+* pbd05_twospring_cbend(測試兩線段彎曲)
+* pbd06_withoutAD(沒有使用自動微分方法來計算梯度)
+* pbd07_PolylineToStraightline(折線透過constraint拉伸為直線)
+* pbd08_withAD(一顆球固定, 其他隨重力持續擺盪至靜止)
+* pbd09_final(最終版本線段模擬)
 
-## xpbd folder
-含有 4 個範例
-* cloth_sim
-以 cube 繪製頂點,檢查頂點是否受重力向下,且constraint順利運作 (delta_frame_time, num_iters, num_substep, AlgorithmType)=(1/60, 10, 5, XPBD)
-* cloth_TriangleMesh
-以 mesh來繪製布料, 模擬速度提升許多
-* cloth_hit_sphere
-使用 collision constraint 分別針對固定即會移動的碰撞物
-* aerodynamics
-內含 5 種 condition (Vector3 wind_velocity, float drag_coeff, float lift_coeff) 
