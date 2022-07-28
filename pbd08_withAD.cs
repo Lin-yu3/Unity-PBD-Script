@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pbd_withAD : MonoBehaviour
+public class pbd08_withAD : MonoBehaviour
 {
     const int N = 8;
     GameObject[] sphere = new GameObject[N];

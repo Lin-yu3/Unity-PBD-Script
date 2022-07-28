@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PBD_twospring_cbend : MonoBehaviour
+public class pbd05_twospring_cbend : MonoBehaviour
 {
     float x1 = -10f, y1 = 0, z1 = 0;
     float x2 = 0f, y2 = 0, z2 = 0;

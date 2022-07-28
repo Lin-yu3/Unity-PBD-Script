@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class move_ball : MonoBehaviour
+public class controller : MonoBehaviour
 {
     void Start()
     {

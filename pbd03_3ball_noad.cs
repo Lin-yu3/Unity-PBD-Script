@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PBD_3ball_noad : MonoBehaviour
+public class pbd03_3ball_noad : MonoBehaviour
 {
     public int N = 3;
     float d0 = 0.8f, angle0 = Mathf.Sin(Mathf.PI);

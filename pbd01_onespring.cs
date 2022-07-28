@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PBD_onespring : MonoBehaviour
+public class pbd01_onespring : MonoBehaviour
 {
     public GameObject ball01, ball02;
     void Start()

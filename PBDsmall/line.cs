@@ -59,7 +59,7 @@ public class line : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             print("pressed button 5 ");
-            balls[4].AddComponent<move_ball>();
+            balls[4].AddComponent<controller>();
         }
         drawNewline();
         for (int i = 1; i < N - 1; i++)
